@@ -1,0 +1,63 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Home Page";
+    string status = TempData["added"] as string ?? string.Empty;
+    TempData["status"] = string.Empty;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/products.css" asp-append-version="true" />
+}
+
+@if (!string.IsNullOrEmpty(status))
+{
+    <div class="toast bg-primary shadow border-0 fade show my-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body text-uppercase text-light-emphasis">
+                @status
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+<section class="light">
+	<div class="container py-2">
+		<div class="h1 text-center text-dark" id="pageHeaderTitle">All Products</div>
+        @foreach (var item in Model)
+        {
+		    <article class="postcard light green">
+                <div class="postcard__img_link">
+                    <img class="postcard__img" src="@item.Picture" alt="@item.Description" />
+                </div>
+			    <div class="postcard__text t-dark">
+				    <h1 class="postcard__title blue"><a href="#">@item.Name</a></h1>
+				    <div class="postcard__subtitle small">
+                        <time>
+                            <i class="fas fa-calendar-alt mr-2"></i> @item.AddedOn
+                        </time>
+				    </div>
+				    <div class="postcard__bar"></div>
+				    <div class="postcard__preview-txt">@item.Description</div>
+				    <ul class="postcard__tagbox">
+                        <li class="tag__item bg-warning">
+                            <a asp-action="AddToCart" class="bg-warning" asp-controller="Products" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-cart-shopping"></i> Add To Cart
+                            </a>
+                        </li>
+                        <li class="tag__item"><i class="fa-solid fa-money-bill-wave"></i> Price : @item.Price $</li>
+                        <li class="tag__item"><i class="fa-solid fa-clipboard"></i> Category : @item.Category.Name</li>
+                        <li class="tag__item"><i class="fa-solid fa-clipboard"></i> Seller : @item.Seller.FName @item.Seller.LName</li>
+                        @if(item.Quantity < 10)
+                        {
+                            <li class="tag__item bg-danger"><i class="fa-solid fa-bolt"></i> Last @item.Quantity items!</li>
+                        }
+
+				    </ul>
+			    </div>
+		    </article>
+        }
+	</div>
+</section>
+
+

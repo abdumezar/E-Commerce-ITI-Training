@@ -1,0 +1,64 @@
+﻿@model Account
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+    var gender = Model.Gender? "Male" : "Female";
+    var Role = User.IsInRole("Seller") ? "Seller" : "User";
+}
+
+<div style="height: 70vh;" class="row justify-content-center align-items-center">
+    <div class="col-6">
+        <div class="text-center p-5">
+            @if (string.IsNullOrEmpty(Model.ProfilePicture))
+            {
+                <img style="width: 50%; border-radius: 50px;" src="~/files/images/ProfilePics/default.jpg" />
+            }else{
+                <img style="width: 50%; border-radius: 50px;" src="@Model.ProfilePicture" />
+            }
+        </div>
+    </div>
+    <div class="col-6">
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Model.FName" disabled asp-for="FName">
+            <label asp-for="FName">First Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Model.LName" disabled asp-for="LName">
+            <label asp-for="LName">Last Name</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Model.Address" disabled asp-for="Address">
+            <label asp-for="Address">Address</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Model.PhoneNumber" disabled asp-for="PhoneNumber">
+            <label asp-for="PhoneNumber">Phone Number</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Model.Email" disabled asp-for="Email">
+            <label asp-for="Email">Email</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@gender" disabled for="Gender">
+            <label for="Gender">Gender</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input class="form-control" value="@Role" disabled id="userType">
+            <label for="userType">User Type</label>
+        </div>
+    </div>
+    <div class="col-6">
+        @* <a class="btn btn-outline-info text-dark w-100" asp-action="UpdateProfilePic" asp-controller="Account">Update Profile Picture</a> *@
+    </div>
+    <div class="col-6">
+        <a class="btn btn-outline-warning text-dark w-100" asp-action="UpdateProfile" asp-controller="Account">Update Profile</a>
+    </div>
+</div>
+

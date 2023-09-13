@@ -1,0 +1,51 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Add Product";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+    SelectList selectCategory = new SelectList(ViewBag.Categories as List<Category>, "Id", "Name", Model?.CategoryId);
+}
+
+<form method="post" asp-action="AddProduct" asp-controller="Products" enctype="multipart/form-data">
+    <div class="form-floating mb-3">
+        <input class="form-control" asp-for="Picture">
+        <label asp-for="Picture">Picture</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" value="@Model?.Name" asp-for="Name">
+        <label asp-for="Name">Name</label>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-2">
+        <input class="form-control" value="@Model?.Description" asp-for="Description">
+        <label asp-for="Description">Description</label>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" value="@Model?.Price" asp-for="Price">
+        <label asp-for="Price">Price</label>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" value="@Model?.Quantity" asp-for="Quantity">
+        <label asp-for="Quantity">Quantity</label>
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <select title="Select Category" asp-items="selectCategory" class="form-select py-3 my-2" asp-for="CategoryId"></select>
+    
+    <a asp-action="Index" class="w-25 py-2 btn btn-primary my-3 mx-0">
+        <i class="fa-solid fa-arrow-left"></i> Back To Products
+    </a>
+    <button type="submit" style="width:74.6%;" class="btn btn-success py-2 my-3">
+        <i class="fa-solid fa-plus"></i> Add Product
+    </button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

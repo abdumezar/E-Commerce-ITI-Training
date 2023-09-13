@@ -1,0 +1,15 @@
+﻿@model Product
+@{
+    ViewData["Title"] = $"Delete Product [{Model.Name}]";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-center p-5 text-center">
+    <form class="bg-light p-5 display-3" method="post" asp-action="DeleteProduct" asp-route-id="@Model.Id" asp-controller="Products">
+        Are you sure to Delete This Product?
+        <br />
+        <button class="btn btn-danger py-2 display-6 px-4" type="submit" >
+            <i class="fa-solid fa-trash"></i> Delete Product
+        </button>
+    </form>
+</div>

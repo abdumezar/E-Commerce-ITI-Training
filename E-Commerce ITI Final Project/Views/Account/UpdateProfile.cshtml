@@ -1,0 +1,14 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "UpdateProfile";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+}
+
+<form asp-controller="Account" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+    <partial name="_RegisterEditAccountPartialView" model="Model" />
+    <div class="form-group">
+        <input class="form-control my-3 py-3" asp-for="ProfilePic">
+    </div>
+    <button type="submit" class="btn btn-warning w-100 py-2 my-3">Update Profile</button>
+</form>

@@ -1,0 +1,37 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    var errors = ViewData["errors"] as string ?? string.Empty;
+    ViewData["errors"] = string.Empty;
+}
+
+
+<form method="post" asp-action="LoginForm" asp-controller="Account">
+    <h3 class="text-light">@ViewData["Title"] Here</h3>
+    @if (!string.IsNullOrEmpty(errors))
+    {
+        <div class="alert alert-danger" role="alert">
+            @errors
+        </div>
+    }
+    <div class="form-floating mb-3">
+        <input class="form-control" asp-for="Email">
+        <label asp-for="Email">Email</label>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input class="form-control" asp-for="Password">
+        <label asp-for="Password">Password</label>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="true" asp-for="RememberMe">
+        <label class="form-check-label ps-1 text-light" asp-for="RememberMe">Remember Me</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-3">Login</button>
+    <p class="py-2 text-light">you are not a member? <a asp-action="Register">Register Now!</a> </p>
+</form>

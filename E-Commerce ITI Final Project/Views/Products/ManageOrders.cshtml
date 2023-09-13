@@ -1,0 +1,86 @@
+﻿@model List<OrderProduct>
+@{
+    ViewData["Title"] = "Manage Orders";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+}
+
+@if (Model is not null && Model.Count > 0)
+{
+    <div class=" border border-2 border-dark border-opacity-50 rounded-3 p-3">
+
+        @if (string.IsNullOrEmpty(ViewData["response"] as string) && ViewData["response"] as string == "the order of this product was not found!")
+        {
+            <div class="toast bg-danger shadow border-0 fade show my-3" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body text-uppercase text-light-emphasis">
+                        @(ViewData["response"] as string)
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        }
+        else if (string.IsNullOrEmpty(ViewData["confirmed"] as string) && ViewData["confirmed"] as string == "the order of this product was confirmed!")
+        {
+            <div class="toast bg-success shadow border-0 fade show my-3" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body text-uppercase text-light-emphasis">
+                        @(ViewData["confirmed"] as string)
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        }
+
+        <table class="table table-striped text-center align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Product</th>
+                    <th>Purchaser</th>
+                    <th>Item Price</th>
+                    <th>Quantity</th>
+                    <th>SubTotal</th>
+                    <th>Ship the product</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center text-start">
+                                <img src="@item.Product.Picture" alt="@item.Product.Description"
+                                     style="width: 45px; height: 45px" class="rounded-2" />
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">@item.Product.Name</p>
+                                    <p class="text-muted mb-0">@item.Product.Category.Name</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">@item.Order.User.FName @item.Order.User.LName</p>
+                        </td>
+                        <td>$ @item.Product.Price</td>
+
+                        <td>@item.Quantity</td>
+                        <td>$ @item.SubTotal</td>
+                        <td>
+                            @if(item.Status == OrderStatus.Purchased)
+                            {
+                                <form method="post" asp-action="ShipProduct" asp-controller="Products">
+                                    <input hidden name="OrderId" value="@item.OrderId" />
+                                    <input hidden name="ProductId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-outline-success w-100">Ship Product</button>
+                                </form>
+                            }else{
+                                <button type="button" class="btn btn-outline-success w-100" disabled>Product Shipped</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="w-100 border border-bottom-0 border-dark mt-5 mb-2"></div>
+    <p class="display-6">Total Income: <span class="fw-bold">$ @Model.Where(OP => OP.Status == OrderStatus.Shipped).Sum(OP => OP.SubTotal)</span> </p>
+    <p class="text-muted fs-4 px-1">@Model.Where(OP => OP.Status == OrderStatus.Shipped).Sum(OP => OP.Quantity) Items</p>
+}

@@ -1,0 +1,91 @@
+﻿@{
+    bool isSignIn = (User.IsInRole("Seller") || User.IsInRole("User"));
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/E_Commerce_ITI_Final_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/font-awesome/css/all.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container px-4 px-lg-5">
+            @if (User.IsInRole("Seller"))
+            {
+                <a class="navbar-brand fw-bold" asp-action="Index" asp-controller="Products">E-Commerce Shop</a>
+            }
+            else
+            {
+                <a class="navbar-brand fw-bold" asp-action="Index" asp-controller="Home">E-Commerce Shop</a>
+            }
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="me-auto"></div>
+                @if (isSignIn)
+                {
+                    @if (User.IsInRole("User"))
+                    {
+                        <a class="btn btn-outline-info py-1 px-4 me-2" asp-action="MyOrders" asp-controller="Products"><i class="fa-brands fa-opencart"></i> My Orders</a>
+                        <a class="btn btn-outline-warning py-1 px-4 me-2" asp-action="ShowCart" asp-controller="Products"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning py-1 px-4 me-2" asp-action="ManageOrders" asp-controller="Products"><i class="fa-solid fa-warehouse"></i> Manage Orders</a>
+                        <a class="btn btn-outline-success py-1 px-4 me-2" asp-action="Index" asp-controller="Products"><i class="fa-solid fa-shop"></i> Manage My Products</a>
+                    }
+                    <a class="btn btn-outline-primary py-1 px-4 me-2" asp-action="Profile" asp-controller="Account"><i class="fa-regular fa-user"></i> Profile</a>
+                    <a class="btn btn-outline-danger py-1 px-4" asp-action="Logout" asp-controller="Account"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                }
+                else{
+                    <a class="btn btn-outline-info py-1 px-4" asp-action="Login" asp-controller="Account"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    @if (ViewData["Title"] as string == "Home Page")
+    {
+        <!-- Header-->
+        <header class="bg-success py-3 mt-4">
+            <div class="container px-3 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-5 fw-bolder">Welcome In E-Commerce Shop</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">where you can find anything you need!</p>
+                    <div class="d-flex justify-content-center">
+                        <form asp-action="Index" asp-controller="Home" class="mt-3 w-50">
+                            <div class="form-group">
+                                <input type="text" class="form-control text-center" value="@ViewBag.Search" name="ProductName" placeholder="Search">
+                            </div>
+                            <button class="submit" hidden></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+    }
+    <!-- Section -->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5 h-100">
+            @RenderBody()
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-3 bg-dark fixed-bottom">
+        <div class="container"><p class="m-0 text-center text-white-50">Copyrights &copy; E-Commerce MVC, Developed by Eng. Abdulrhman Mezar | ITI Summer Training 2023 [Cairo University]</p></div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

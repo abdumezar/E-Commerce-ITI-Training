@@ -1,0 +1,53 @@
+﻿@model RegisterViewModel
+
+<div class="form-floating mb-3">
+    <input class="form-control" value="@Model?.FName" asp-for="FName">
+    <label  asp-for="FName">First Name</label>
+    <span asp-validation-for="FName" class="text-danger"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input class="form-control" value="@Model?.LName" asp-for="LName">
+    <label asp-for="LName">Last Name</label>
+    <span asp-validation-for="LName" class="text-danger"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input class="form-control" value="@Model?.Address" asp-for="Address">
+    <label asp-for="Address">Address</label>
+    <span asp-validation-for="Address" class="text-danger"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input class="form-control" value="@Model?.PhoneNumber" asp-for="PhoneNumber">
+    <label asp-for="PhoneNumber">Phone Number</label>
+    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+</div>
+
+<div class="form-floating mb-2">
+    <input class="form-control" value="@Model?.Email" asp-for="Email">
+    <label asp-for="Email">Email</label>
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+@if (ViewBag.Title == "Register")
+{
+    <label class="py-2 text-light" asp-for="isSeller">User Type</label>
+    <select class="form-select py-3 text-dark" asp-for="isSeller">
+        <option class="text-black" value="true" selected>Seller</option>
+        <option class="text-black" value="false">User</option>
+    </select>
+
+    <label class="py-2 text-light" asp-for="Gender">Gender</label>
+    <select class="form-select py-3 text-dark" asp-for="Gender">
+        <option class="text-black" value="true" selected>Male</option>
+        <option class="text-black" value="false">Female</option>
+    </select>
+}else{
+    <label class="py-2" asp-for="Gender">Gender</label>
+    <select class="form-select py-3 text-dark" asp-for="Gender">
+    <option class="text-black" value="true" selected>Male</option>
+    <option class="text-black" value="false">Female</option>
+    </select>
+}
+

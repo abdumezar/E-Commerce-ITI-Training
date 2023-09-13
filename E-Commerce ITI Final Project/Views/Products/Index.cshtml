@@ -1,0 +1,55 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/products.css" asp-append-version="true" />
+}
+
+<section class="light">
+	<div class="container py-2">
+		<div class="h1 text-center text-dark" id="pageHeaderTitle">My Products</div>
+        <a asp-controller="Products" asp-action="Add" class="btn btn-success w-25 py-2 my-3">
+            <img src="~/files/images/icons/add.png" width="25px" />
+            Add Product
+        </a>
+		@foreach (var item in Model)
+        {
+            <article class="postcard dark blue">
+                <div class="postcard__img_link">
+                    <img class="postcard__img" src="@item.Picture" alt="@item.Description" />
+                </div>
+                <div class="postcard__text">
+                    <h1 class="postcard__title blue"><a href="#">@item.Name</a></h1>
+                    <div class="postcard__subtitle small">
+                        <time>
+                            <i class="fas fa-calendar-alt mr-2"></i> @item.AddedOn
+                        </time>
+                    </div>
+                    <div class="postcard__bar"></div>
+                    <div class="postcard__preview-txt">@item.Description</div>
+                    <ul class="postcard__tagbox">
+                        <li class="tag__item bg-warning">
+                            <a asp-action="Edit" class="bg-warning" asp-controller="Products" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-edit"></i> Edit
+                            </a>
+                        </li>
+                        <li class="tag__item bg-danger">
+                            <a asp-action="Delete" class="bg-danger" asp-controller="Products" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                        </li>
+                        <li class="tag__item"><i class="fa-solid fa-money-bill-wave"></i> Price : @item.Price $</li>
+                        <li class="tag__item"><i class="fa-solid fa-hashtag"></i> Quantity : @item.Quantity</li>
+                        <li class="tag__item"><i class="fa-solid fa-clipboard"></i> Category : @item.Category.Name</li>
+                    </ul>
+                </div>
+            </article>
+        }
+		
+	</div>
+</section>
+
+

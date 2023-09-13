@@ -1,0 +1,67 @@
+﻿@model List<OrderProduct>
+@{
+    ViewData["Title"] = "MyOrders";
+    Layout = "~/Views/Shared/_AdvLayout.cshtml";
+}
+
+@if (Model is not null && Model.Count > 0)
+{
+    <div class=" border border-2 border-dark border-opacity-50 rounded-3 p-3">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Order No.</th>
+                    <th>Product</th>
+                    <th>Seller</th>
+                    <th>Item Price</th>
+                    <th>Quantity</th>
+                    <th>SubTotal</th>
+                    <th>Order Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td># @item.OrderId</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="@item.Product.Picture" alt="@item.Product.Description"
+                                     style="width: 45px; height: 45px" class="rounded-2" />
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">@item.Product.Name</p>
+                                    <p class="text-muted mb-0">@item.Product.Category.Name</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">@item.Product.Seller.FName @item.Product.Seller.LName</p>
+                        </td>
+                        <td>$ @item.Product.Price</td>
+
+                        <td>@item.Quantity</td>
+                        <td>$ @item.SubTotal</td>
+                        <td>
+                            @if (item.Status == OrderStatus.Purchased)
+                            {
+                                <button type="button" class="btn btn-outline-warning w-100" disabled>Product Purchased</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-outline-success w-100" disabled>Product Shipped</button>
+                            }
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="d-flex align-items-center justify-content-center p-5 text-center">
+        <h2 class="text-black-50">You have no orders yet!</h2>
+    </div>
+}
